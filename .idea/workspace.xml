@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7f3b59a7-5126-40c1-8505-fff261b15185" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/DBConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/GlobalPropertyReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/KycAutomationApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/KycScheduledTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/KycService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/PropertyReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/config/AppDbConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/config/AudDatabaseConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/entity/app/KycAirtelDataHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/entity/app/KycData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/entity/app/KycTnmDataHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/entity/aud/ModulesAuditTrail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/repository/app/KycAirtelDataHistoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/repository/app/KycDataRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/repository/app/KycTnmDataHistoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gl/repository/aud/ModulesAuditTrailRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/gl/KycServiceTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2mHv85q5NuAcRi8fEP4KiDJwMEu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.KycAutomationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.KycServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.KycServiceTest.testCreateProcessedFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.KycServiceTest.testGetKycDataByOperator.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.KycAutomationApplication [clean,package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.KycAutomationApplication [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.KycAutomationApplication [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.KycAutomationApplication [package].executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
+    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.KycAutomationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/braj/Downloads/KycAutomationApplication5 2/KycAutomationApplication5/KycAutomationApplication&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kunal\Downloads\Compressed\KycAutomationApplication5\KycAutomationApplication\src\test" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.gl" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.gl.config" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean package" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.KycAutomationApplication">
+    <configuration name="KycServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="KycAutomationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gl.entity.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gl" />
+      <option name="MAIN_CLASS_NAME" value="com.gl.KycServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KycServiceTest.testCreateProcessedFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="KycAutomationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gl.entity.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gl" />
+      <option name="MAIN_CLASS_NAME" value="com.gl.KycServiceTest" />
+      <option name="METHOD_NAME" value="testCreateProcessedFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KycServiceTest.testGetKycDataByOperator" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="KycAutomationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gl.entity.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gl" />
+      <option name="MAIN_CLASS_NAME" value="com.gl.KycServiceTest" />
+      <option name="METHOD_NAME" value="testGetKycDataByOperator" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KycAutomationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="KycAutomationApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gl.KycAutomationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.KycServiceTest.testGetKycDataByOperator" />
+        <item itemvalue="JUnit.KycServiceTest.testCreateProcessedFile" />
+        <item itemvalue="JUnit.KycServiceTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7f3b59a7-5126-40c1-8505-fff261b15185" name="Changes" comment="" />
+      <created>1726746165629</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726746165629</updated>
+      <workItem from="1726813502020" duration="35000" />
+      <workItem from="1726813668485" duration="2573000" />
+      <workItem from="1726817883736" duration="376000" />
+      <workItem from="1726818270540" duration="10294000" />
+      <workItem from="1726862989063" duration="240000" />
+      <workItem from="1726863733329" duration="58000" />
+      <workItem from="1727113181437" duration="5810000" />
+      <workItem from="1727121571902" duration="3641000" />
+      <workItem from="1727259038972" duration="3451000" />
+      <workItem from="1727283274838" duration="17000" />
+      <workItem from="1727284726665" duration="9975000" />
+      <workItem from="1727300662561" duration="238000" />
+      <workItem from="1727697767748" duration="13993000" />
+      <workItem from="1727727448644" duration="3277000" />
+      <workItem from="1727730785435" duration="1145000" />
+      <workItem from="1727757597537" duration="4327000" />
+      <workItem from="1727894520896" duration="5040000" />
+      <workItem from="1728281187581" duration="3570000" />
+      <workItem from="1728469964557" duration="5631000" />
+      <workItem from="1728587393246" duration="112000" />
+      <workItem from="1728895105280" duration="10408000" />
+      <workItem from="1728969804911" duration="7265000" />
+      <workItem from="1729187478811" duration="5282000" />
+      <workItem from="1729754505747" duration="8026000" />
+      <workItem from="1731986065644" duration="4936000" />
+      <workItem from="1732009768437" duration="6934000" />
+      <workItem from="1735014512700" duration="13396000" />
+      <workItem from="1735190630044" duration="19190000" />
+      <workItem from="1735273829245" duration="5477000" />
+      <workItem from="1735883510176" duration="9605000" />
+      <workItem from="1736147526310" duration="5701000" />
+      <workItem from="1736915179670" duration="599000" />
+      <workItem from="1738736748014" duration="8784000" />
+      <workItem from="1738856156535" duration="644000" />
+      <workItem from="1739449696893" duration="5473000" />
+      <workItem from="1739781912669" duration="9000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
+  </component>
+</project>
