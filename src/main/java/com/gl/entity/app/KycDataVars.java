@@ -13,8 +13,8 @@ public class KycDataVars {
     private int id;
 
     private String msisdn;
+    private String idProofType;
 
     private String idNumber;
 
-    private String idProofType;
 }

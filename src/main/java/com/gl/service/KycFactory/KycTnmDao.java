@@ -13,8 +13,8 @@ public class KycTnmDao implements IKycInterface {
     KycTnmDataRepository kycTnmRepository;
 
     @Override
-    public <T> T getInsert(String msisdn, String id_number, String id_proof_type) {
-        return (T) kycTnmRepository.save(new KycTnmData(msisdn, id_number, id_proof_type));
+    public <T> T getInsert(String msisdn,  String id_proof_type, String id_number) {
+        return (T) kycTnmRepository.save(new KycTnmData(msisdn,id_proof_type, id_number));
     }
 
     @Override
@@ -23,7 +23,7 @@ public class KycTnmDao implements IKycInterface {
     }
 
     @Override
-    public void getUpdate(String msisdn, String id_number, String id_proof_type) {
-         kycTnmRepository.getUpdate( id_number, id_proof_type ,msisdn);;
+    public void getUpdate(String msisdn, String id_proof_type, String id_number) {
+         kycTnmRepository.getUpdate( msisdn,id_proof_type, id_number);;
     }
 }

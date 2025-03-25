@@ -7,7 +7,7 @@ import com.gl.entity.app.ModulesAuditTrail;
 import com.gl.repository.app.KycAirtelDataHistoryRepository;
 import com.gl.repository.app.KycTnmDataHistoryRepository;
 import com.gl.repository.app.KycTnmDataRepository;
-import com.gl.repository.aud.ModulesAuditTrailRepository;
+import com.gl.repository.app.ModulesAuditTrailRepository;
 import com.gl.service.KycFactory.KycDataFactory;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.sql.Timestamp;
@@ -76,18 +75,20 @@ public class KycService {
     KycDataFactory kycDataFactory;
 
 
-    @Transactional
+  //  @Transactional
     public void processKycFile(String operatorName) {
         String remoteFile = checkForFile(operatorName);
         if (remoteFile == null) {
             log.info("No file found. Exiting...");
-              return;
+            return;
         }
+        log.info("No File Name  found. ..." + remoteFile);
         ModulesAuditTrail auditTrail = createAuditTrailEntry(operatorName, remoteFile);
-       log.info("Audit Trail created: {}", auditTrail);
+        log.info("Audit Trail created: {}", auditTrail);
         try {
-             List<KycTnmData> kycDataList = processFileFromSftp(remoteFile, operatorName);
+            List<KycTnmData> kycDataList = processFileFromSftp(remoteFile, operatorName);
             boolean processedFileExists = checkProcessedFileOnSftp(operatorName);
+            log.info("processedFileExists . ..." + processedFileExists);
             List<KycTnmData> deltaDataList = new ArrayList<>();
             if (processedFileExists) {
                 deltaDataList = createDeltaFile(operatorName, kycDataList);
@@ -99,7 +100,6 @@ public class KycService {
             }
             List<KycTnmData> dataToProcess = deltaDataList.isEmpty() ? kycDataList : deltaDataList;
 
-
             int numberOfRecordsToProcess = dataToProcess.size();
             int numberOfSuccessRecord = 0;
             int numberOfFailRecord = 0;
@@ -109,24 +109,24 @@ public class KycService {
             //   ExecutorService executorService = Executors.newFixedThreadPool(4);
             //   List<Future<Boolean>> futures = new ArrayList<>();
             var kycDataVar = kycDataFactory.createUser(operatorName);
+            log.info("User  {}",kycDataVar);
             for (KycTnmData record : dataToProcess) {
                 //    futures.add(executorService.submit(() -> {
                 try {
                     var t = kycDataVar.findKycDataByMsisdn(record.getMsisdn());
-                    log.info("values are {}", t.toString());
                     if (t == null) {
-                        log.info("insert {}", t.toString());
+                        log.info("insert {}", record.toString());
                         kycDataVar.getInsert(record.getMsisdn(), record.getIdProofType(), record.getIdNumber());
                         //  insertKycData(record, operatorName);
                     } else {
-                        log.info("update :: {}", t.toString());
+                        log.info("update :: {}", t.toString()+   "  to ->" +  record);
                         kycDataVar.getUpdate(record.getMsisdn(), record.getIdProofType(), record.getIdNumber());
                         //   updateKycData(record, operatorName);
                     }
 
                     numberOfSuccessRecord++;
                 } catch (Exception e) {
-                    log.error("Error processing KYC data: {}", e.getMessage());
+                    log.error(e.getLocalizedMessage() +"Error processing KYC data: {}", e.getMessage() + e);
                     numberOfFailRecord++;
                 }
                 //   }));
@@ -139,17 +139,15 @@ public class KycService {
             createProcessedFile(remoteFile, kycDataList, operatorName);
             moveToBackup(remoteFile, operatorName);
         } catch (Exception e) {
-          handleProcessingError(auditTrail, e);
+            handleProcessingError(auditTrail, e);
         }
     }
-
 
 
     private boolean checkProcessedFileOnSftp(String operatorName) {
         Session session = null;
         ChannelSftp channelSftp = null;
         String remoteDir = operatorName.equalsIgnoreCase("airtel") ? airtelProcessedDir : tnmProcessedDir;
-
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(sftpUsername, sftpHost, sftpPort);
@@ -160,7 +158,6 @@ public class KycService {
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
             channelSftp.cd(remoteDir);
-
             // List files in the directory
             @SuppressWarnings("unchecked")
             Vector<ChannelSftp.LsEntry> fileList = channelSftp.ls("*.csv");
@@ -194,6 +191,7 @@ public class KycService {
             auditTrail.setStatus("INIT");
             auditTrail.setFeature("KYC Processing");
             auditTrail.setRequestURL(remoteFile);
+            auditTrail.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
             return modulesAuditTrailRepository.save(auditTrail);
         } catch (Exception e) {
             log.error("Error creating audit trail entry", e);
@@ -231,19 +229,17 @@ public class KycService {
     private List<KycTnmData> createDeltaFile(String operatorName, List<KycTnmData> newKycDataList) throws FileNotFoundException {
         String processedDir = operatorName.equalsIgnoreCase("airtel") ? airtelProcessedDir : tnmProcessedDir;
         String deltaDir = operatorName.equalsIgnoreCase("airtel") ? airtelDeltaDir : tnmDeltaDir;
-
         List<KycTnmData> oldKycDataList = findLatestProcessedFile(processedDir);
         List<KycTnmData> deltaDataList = new ArrayList<>();
-
         if (!oldKycDataList.isEmpty()) {
             deltaDataList = compareFiles(oldKycDataList, newKycDataList);
-
             // Save the delta file
             saveDeltaFile(deltaDir, deltaDataList, operatorName);
         } else {
             log.info("No processed file found. Skipping delta file creation.");
         }
         /*System.out.println("Delta Data List : "+deltaDataList);*/
+        log.info("Delta Data List : " + deltaDataList);
         return deltaDataList;
     }
 
@@ -401,7 +397,7 @@ public class KycService {
         ChannelSftp channelSftp = null;
         String fileKeyword = operatorName.equalsIgnoreCase("airtel") ? airtelFileKeyword : tnmFileKeyword;
         String remoteDir = operatorName.equalsIgnoreCase("airtel") ? airtelRemoteDir : tnmRemoteDir;
-
+        log.info(fileKeyword + "    Going for Sftp remoteDir : " + remoteDir);
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(sftpUsername, sftpHost, sftpPort);
@@ -412,7 +408,6 @@ public class KycService {
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
             channelSftp.cd(remoteDir);
-
             // List files in the directory and check for the keyword
             Vector<ChannelSftp.LsEntry> files = channelSftp.ls(remoteDir);
             for (ChannelSftp.LsEntry file : files) {
@@ -430,7 +425,6 @@ public class KycService {
                 session.disconnect();
             }
         }
-
         return null; // No file found
     }
 
@@ -438,26 +432,22 @@ public class KycService {
         Session session = null;
         ChannelSftp channelSftp = null;
         List<KycTnmData> kycDataList = new ArrayList<>();
-
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(sftpUsername, sftpHost, sftpPort);
             session.setPassword(sftpPassword);
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
-
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
-
             // Navigate to the appropriate remote directory
             String remoteDir = operatorName.equalsIgnoreCase("airtel") ? airtelRemoteDir : tnmRemoteDir;
             channelSftp.cd(remoteDir);
-
             // Get the input stream for the remote file
             InputStream inputStream = channelSftp.get(remoteFile);
             kycDataList = parseFile(inputStream);
             // Process records
-            processRecords(kycDataList, operatorName);
+        //    processRecords(kycDataList, operatorName);
 
         } catch (Exception e) {
             log.error("Error processing file from SFTP", e);
@@ -474,7 +464,6 @@ public class KycService {
 
     private List<KycTnmData> parseFile(InputStream inputStream) {
         List<KycTnmData> kycDataList = new ArrayList<>();
-
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] line;
             // csvReader.readNext(); // Skip header
@@ -483,9 +472,7 @@ public class KycService {
                 if (line.length < 3) {
                     log.warn("Skipping entry due to missing columns: {}", Arrays.toString(line));
                     continue;
-                }
-
-                // Validate MSISDN (must be numeric)
+                }// Validate MSISDN (must be numeric)
                 String msisdn = line[0];
                 if (!isNumeric(msisdn)) {
                     log.warn("Skipping entry with non-numeric MSISDN: {}", Arrays.toString(line));
@@ -507,38 +494,7 @@ public class KycService {
         return str != null && str.matches("\\d+");
     }
 
-    private void processRecords(List<KycTnmData> kycDataList, String operatorName) {
-        for (KycTnmData record : kycDataList) {
-            Optional<KycTnmData> existingRecord = kycDataRepository.findByMsisdn(record.getMsisdn());
-            if (existingRecord.isPresent()) {
-                // Save current state to history
-                KycTnmData data = existingRecord.get();
-                if (operatorName.equalsIgnoreCase("tnm")) {
-                    KycTnmDataHistory history = new KycTnmDataHistory();
-                    history.setMsisdn(data.getMsisdn());
-                    history.setIdProofType(data.getIdProofType());
-                    history.setIdNumber(data.getIdNumber());
-                    history.setUpdatedOn(LocalDateTime.now());
-                    kycTnmDataHistoryRepository.save(history);
-                } else if (operatorName.equalsIgnoreCase("airtel")) {
-                    KycAirtelDataHistory history = new KycAirtelDataHistory();
-                    history.setMsisdn(data.getMsisdn());
-                    history.setIdProofType(data.getIdProofType());
-                    history.setIdNumber(data.getIdNumber());
-                    history.setUpdatedOn(LocalDateTime.now());
-                    kycAirtelDataHistoryRepository.save(history);
-                }
 
-                // Update existing record
-                data.setIdProofType(record.getIdProofType());
-                data.setIdNumber(record.getIdNumber());
-                kycDataRepository.save(data);
-            } else {
-                // Insert new record
-                kycDataRepository.save(record);
-            }
-        }
-    }
 
     void moveToBackup(String remoteFile, String operatorName) {
         Session session = null;
@@ -596,7 +552,6 @@ public class KycService {
 //    }
 
 
-
 //  private Connection conn;
 //  private Connection auditConn;
 
@@ -650,7 +605,6 @@ public class KycService {
 //            }
 
 //     executorService.shutdown();
-
 
 
 //    private Optional<KycTnmData> findKycDataByMsisdn(String msisdn, String operatorName) throws SQLException {
@@ -732,3 +686,35 @@ public class KycService {
 //                        log.info("Inserting record: {}", record);
 //                        insertKycData(record, operatorName);
 //                    }
+//private void processRecords(List<KycTnmData> kycDataList, String operatorName) {
+//    for (KycTnmData record : kycDataList) {
+//        Optional<KycTnmData> existingRecord = kycDataRepository.findByMsisdn(record.getMsisdn());
+//        if (existingRecord.isPresent()) {
+//            // Save current state to history
+//            KycTnmData data = existingRecord.get();
+//            if (operatorName.equalsIgnoreCase("tnm")) {
+//                KycTnmDataHistory history = new KycTnmDataHistory();
+//                history.setMsisdn(data.getMsisdn());
+//                history.setIdProofType(data.getIdProofType());
+//                history.setIdNumber(data.getIdNumber());
+//                history.setUpdatedOn(LocalDateTime.now());
+//                kycTnmDataHistoryRepository.save(history);
+//            } else if (operatorName.equalsIgnoreCase("airtel")) {
+//                KycAirtelDataHistory history = new KycAirtelDataHistory();
+//                history.setMsisdn(data.getMsisdn());
+//                history.setIdProofType(data.getIdProofType());
+//                history.setIdNumber(data.getIdNumber());
+//                history.setUpdatedOn(LocalDateTime.now());
+//                kycAirtelDataHistoryRepository.save(history);
+//            }
+//
+//            // Update existing record
+//            data.setIdProofType(record.getIdProofType());
+//            data.setIdNumber(record.getIdNumber());
+//            kycDataRepository.save(data);
+//        } else {
+//            // Insert new record
+//            kycDataRepository.save(record);
+//        }
+//    }
+//}

@@ -27,9 +27,9 @@ public class KycTnmData extends KycDataVars{
     // Getters and Setters
 
 
-    public KycTnmData(String msisdn, String idNumber, String idProofType) {
+    public KycTnmData(String msisdn, String idProofType ,String idNumber ) {
         this.msisdn = msisdn;
-        this.idNumber = idNumber;
         this.idProofType = idProofType;
+        this.idNumber = idNumber;
     }
 }

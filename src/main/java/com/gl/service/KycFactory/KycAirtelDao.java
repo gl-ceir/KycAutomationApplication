@@ -14,13 +14,13 @@ public class KycAirtelDao implements IKycInterface {
     KycAirtelDataRepository kycAirtelRepository;
 
     @Override
-    public <T> T getInsert(String msisdn, String id_number, String id_proof_type) {
-        return (T) kycAirtelRepository.save(new KycAirtelData(msisdn, id_number, id_proof_type));
+    public <T> T getInsert(String msisdn, String id_proof_type, String id_number) {
+        return (T) kycAirtelRepository.save(new KycAirtelData(msisdn,id_proof_type, id_number ));
     }
 
     @Override
-    public  void getUpdate(String msisdn, String id_number, String id_proof_type) {
-         kycAirtelRepository.getUpdate( id_number, id_proof_type ,msisdn);
+    public  void getUpdate(String msisdn, String id_proof_type, String id_number) {
+         kycAirtelRepository.getUpdate(msisdn,id_proof_type, id_number);
     }
 
     @Override

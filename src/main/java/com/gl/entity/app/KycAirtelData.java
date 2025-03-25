@@ -23,9 +23,10 @@ public class KycAirtelData extends KycDataVars{
     public KycAirtelData() {
     }
 
-    public KycAirtelData(String msisdn, String idNumber, String idProofType) {
+    public KycAirtelData(String msisdn, String idProofType, String idNumber) {
         this.msisdn = msisdn;
-        this.idNumber = idNumber;
         this.idProofType = idProofType;
+        this.idNumber = idNumber;
+
     }
 }

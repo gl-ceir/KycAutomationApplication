@@ -22,12 +22,10 @@ public class KycAutomationApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            if (args.length > 0 && args[0].startsWith("--operator=")) {
-                String operatorName = args[0].split("=")[1];
-                //  List<KycData> kycDataList = kycService.getKycDataByOperator(operatorName);
-                    kycService.processKycFile(operatorName);
+            if (   args.length > 0  ) {
+                    kycService.processKycFile(args[0]);
             } else {
-                System.err.println("Operator name not provided. Please use --operator=<name>.");
+                System.err.println("Operator name not provided. Please provide operator name");
             }
             System.exit(1);
         };

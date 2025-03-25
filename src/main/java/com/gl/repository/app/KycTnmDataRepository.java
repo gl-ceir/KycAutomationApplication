@@ -15,11 +15,10 @@ import java.util.Optional;
 
 @Repository
 public interface KycTnmDataRepository extends JpaRepository<KycTnmData, Long> {
-    Optional<KycTnmData> findByMsisdn(String msisdn);
+     KycTnmData findByMsisdn(String msisdn);
 
     @Modifying
     @Transactional
     @Query("UPDATE KycTnmData u SET u.idNumber = :idNumber ,u.idProofType = :idProofType  WHERE u.msisdn = :msisdn")
-    void getUpdate(@Param("idNumber") String idNumber, @Param("idProofType") String idProofType, @Param("msisdn") String msisdn );
-
+    void getUpdate( @Param("msisdn") String msisdn, @Param("idProofType") String idProofType,@Param("idNumber") String idNumber );
 }

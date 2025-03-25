@@ -1,4 +1,4 @@
-package com.gl.repository.aud;
+package com.gl.repository.app;
 
 import com.gl.entity.app.ModulesAuditTrail;
 import org.springframework.data.jpa.repository.JpaRepository;
