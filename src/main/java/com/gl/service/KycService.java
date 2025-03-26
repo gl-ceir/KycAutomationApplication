@@ -67,6 +67,8 @@ public class KycService {
     @Value("${sftp.delta.dir.tnm}")
     private String tnmDeltaDir;
 
+    @Value("${serverName}")
+    private String serverName;
     @Autowired
     ModulesAuditTrailRepository modulesAuditTrailRepository;
 
@@ -83,6 +85,7 @@ public class KycService {
             return;
         }
         log.info("No File Name  found. ..." + remoteFile);
+        long startTime = System.currentTimeMillis();
         ModulesAuditTrail auditTrail = createAuditTrailEntry(operatorName, remoteFile);
         log.info("Audit Trail created: {}", auditTrail);
         try {
@@ -135,11 +138,11 @@ public class KycService {
             log.info("Number of records processed successfully: {}", numberOfSuccessRecord);
             log.info("Number of records failed: {}", numberOfFailRecord);
 
-            updateAuditTrailEntry(auditTrail, kycDataList.size(), numberOfSuccessRecord, numberOfFailRecord);
+            updateAuditTrailEntry(auditTrail, kycDataList.size(), numberOfSuccessRecord, numberOfFailRecord, startTime);
             createProcessedFile(remoteFile, kycDataList, operatorName);
             moveToBackup(remoteFile, operatorName);
         } catch (Exception e) {
-            handleProcessingError(auditTrail, e);
+            handleProcessingError(auditTrail, e,startTime);
         }
     }
 
@@ -189,7 +192,9 @@ public class KycService {
             auditTrail.setOperatorName(operatorName);
             auditTrail.setStatusCode(201);
             auditTrail.setStatus("INIT");
+            auditTrail.setModuleName("KYC");
             auditTrail.setFeature("KYC Processing");
+            auditTrail.setServerName(serverName);
             auditTrail.setRequestURL(remoteFile);
             auditTrail.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
             return modulesAuditTrailRepository.save(auditTrail);
@@ -200,7 +205,7 @@ public class KycService {
         }
     }
 
-    void updateAuditTrailEntry(ModulesAuditTrail auditTrail, int totalRecords, int successRecords, int failRecords) {
+    void updateAuditTrailEntry(ModulesAuditTrail auditTrail, int totalRecords, int successRecords, int failRecords ,long startTime) {
         try {
             auditTrail.setStatusCode(200);
             auditTrail.setNumberOfSuccessRecord(successRecords);
@@ -208,18 +213,21 @@ public class KycService {
             auditTrail.setTotalNumberOfRecord(totalRecords);
             auditTrail.setStatus("SUCCESS");
             auditTrail.setModifiedOn(Timestamp.valueOf(LocalDateTime.now()));
+            auditTrail.setExecutionTime(String.valueOf(System.currentTimeMillis() -startTime));
             modulesAuditTrailRepository.save(auditTrail);
         } catch (Exception e) {
             log.error("Error updating audit trail entry", e);
         }
     }
 
-    void handleProcessingError(ModulesAuditTrail auditTrail, Exception e) {
+    void handleProcessingError(ModulesAuditTrail auditTrail, Exception e,long startTime) {
         try {
             auditTrail.setStatusCode(500);
             auditTrail.setStatus("ERROR");
             auditTrail.setErrorMessage(e.getMessage());
             auditTrail.setModifiedOn(Timestamp.valueOf(LocalDateTime.now()));
+            auditTrail.setExecutionTime(String.valueOf(System.currentTimeMillis() -startTime));
+
             modulesAuditTrailRepository.save(auditTrail);
         } catch (Exception ex) {
             log.error("Error handling processing error", ex);
